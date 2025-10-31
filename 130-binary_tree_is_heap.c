@@ -28,7 +28,8 @@ int binary_tree_is_complete_helper(const binary_tree_t *tree,
 		return (1);
 	if (index >= node_count)
 		return (0);
-	return (binary_tree_is_complete_helper(tree->left, 2 * index + 1, node_count) &&
+	return (binary_tree_is_complete_helper(tree->left,
+				2 * index + 1, node_count) &&
 			binary_tree_is_complete_helper(tree->right, 2 * index + 2, node_count));
 }
 
@@ -85,9 +86,9 @@ int binary_tree_is_heap(const binary_tree_t *tree)
 {
 	if (!tree)
 		return (0);
-	if(!binary_tree_is_complete(tree))
+	if (!binary_tree_is_complete(tree))
 		return (0);
-	if(!is_heap_property(tree))
+	if (!is_heap_property(tree))
 		return (0);
 	return (1);
 }
