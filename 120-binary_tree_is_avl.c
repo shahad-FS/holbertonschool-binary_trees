@@ -17,8 +17,10 @@ size_t height(const binary_tree_t *tree)
 
 	if (tree == NULL)
 		return (0);
+
 	left = height(tree->left);
 	right = height(tree->right);
+	
 	return ((left > right ? left : right) + 1);
 }
 
@@ -35,13 +37,18 @@ int is_avl_helper(const binary_tree_t *tree, int min , int max)
 	int left_h, right_h, balance;
 
 	if (tree == NULL)
+		return (1);
+
+	if (tree->n <= min || tree->n >= max)
 		return (0);
+
 	left_h = height(tree->left);
 	right_h = height(tree->right);
 	balance = left_h - right_h;
 
 	if (balance > 1 || balance < -1)
 		return (0);
+
 	return (is_avl_helper(tree->left, min, tree->n) &&
 			is_avl_helper(tree->right, tree->n, max));
 }
@@ -56,5 +63,6 @@ int binary_tree_is_avl(const binary_tree_t *tree)
 {
 	if (tree == NULL)
 		return (0);
+
 	return (is_avl_helper(tree, INT_MIN, INT_MAX));
 }
