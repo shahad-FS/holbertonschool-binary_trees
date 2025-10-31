@@ -49,23 +49,45 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 	return (binary_tree_is_complete_helper(tree, 0, node_count));
 }
 
+
 /**
- * binary_tree_is_heap - Checks if a binary tree is a valid Max Binary Heap
- * @tree: Pointer to the root node of the tree
+ * is_heap_property - Recursively checks Max Heap property.
+ * @tree: Pointer to the root node of the subtree.
  *
- * Return: 1 if tree is a valid Max Heap, 0 otherwise
+ * Return: 1 if Max Heap property holds for this subtree, 0 otherwise.
+ *
+ * Notes: returns 1 for NULL (empty subtree is valid).
  */
-int binary_tree_is_heap(const binary_tree_t *tree)
+int is_heap_property(const binary_tree_t *tree)
 {
 	if (!tree)
 		return (1);
-	if (!binary_tree_is_complete(tree))
-		return (0);
 	if (tree->left && tree->n < tree->left->n)
 		return (0);
 	if (tree->right && tree->n < tree->right->n)
 		return (0);
-	if (!binary_tree_is_heap(tree->left) || !binary_tree_is_heap(tree->right))
+	if (!is_heap_property(tree->left) || !is_heap_property(tree->right))
+		return (0);
+	return (1);
+}
+
+/**
+ * binary_tree_is_heap - Checks if a binary tree is a valid Max Binary Heap.
+ * @tree: Pointer to the root node of the tree.
+ *
+ * Return: 1 if tree is a valid Max Binary Heap, 0 otherwise.
+ *
+ * Behavior:
+ * - If tree == NULL, returns 0 (required by tests).
+ * - Otherwise checks completeness first, then Max Heap property.
+ */
+int binary_tree_is_heap(const binary_tree_t *tree)
+{
+	if (!tree)
+		return (0);
+	if(!binary_tree_is_complete(tree))
+		return (0);
+	if(!is_heap_property(tree))
 		return (0);
 	return (1);
 }
